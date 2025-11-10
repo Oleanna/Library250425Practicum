@@ -19,19 +19,19 @@ class Author(models.Model):
         return f"{self.last_name[0]}.{self.first_name}"
 
 class Category(models.Model):
-        name_category = (models.CharField(
-            max_length=30,
-            unique=True,
-            verbose_name="Имя категории"
-        )
+    name_category = models.CharField(
+        max_length=30,
+        unique=True,
+        verbose_name="Имя категории"
+    )
 
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
         ordering = ['name_category']
 
     def __str__(self):
-        return self.name
+        return self.name_category
 
 class Book(models.Model):
     GENRE_CHOICES=[
@@ -64,17 +64,18 @@ class Book(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,
+        related_name="books",
+        null=True, blank=True,
         verbose_name="Категория")
 
     class Meta:
-        verbose_name = "Книги"
-        verbose_name_plural = "Книг"
+        verbose_name = "Book"
+        verbose_name_plural = "Books"
         ordering = ['title']
 
 
     def __str__(self):
         return f"{self.title} --{self.author.last_name if self.author else 'NONAME'}"
-
 
 
 class Publisher(models.Model):
